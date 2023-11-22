@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.ReportFormMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.ReportForm">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="period" property="period" jdbcType="INTEGER"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="wedlock" property="wedlock" jdbcType="VARCHAR"/>
+        <result column="endContract" property="endContract" jdbcType="VARCHAR"/>
+        <result column="fileAddress" property="fileAddress" jdbcType="VARCHAR"/>
+        <result column="excelBinary" property="excelBinary" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updater" property="updater" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertOne2" parameterType="org.pvuu.model.ReportForm">
+        insert into form_sheet (name, code,
+                                type, period,
+                                email, wedlock, endContract,
+                                fileAddress, excelBinary, state,
+                                remark, creator,
+                                createTime, updater, updateTime)
+        values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+                #{type,jdbcType=INTEGER}, #{period,jdbcType=INTEGER},
+                #{email,jdbcType=VARCHAR}, #{wedlock,jdbcType=VARCHAR}, #{endContract,jdbcType=VARCHAR},
+                #{fileAddress,jdbcType=VARCHAR}, #{excelBinary,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER},
+                #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertOne" parameterType="org.pvuu.model.ReportForm">
+        insert into form_sheet (name, code,
+                                type, period,
+                                email, wedlock, endContract,
+                                state,
+                                remark, creator,
+                                createTime, updater, updateTime)
+        values (#{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
+                #{type,jdbcType=INTEGER}, #{period,jdbcType=INTEGER},
+                #{email,jdbcType=VARCHAR}, #{wedlock,jdbcType=VARCHAR}, #{endContract,jdbcType=VARCHAR},
+                #{state,jdbcType=INTEGER},
+                #{remark,jdbcType=VARCHAR}, #{creator,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR}, #{updater,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

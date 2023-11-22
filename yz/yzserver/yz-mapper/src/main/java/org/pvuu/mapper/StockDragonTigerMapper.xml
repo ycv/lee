@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockDragonTigerMapper">
+
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockDragonTiger">
+
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="endDate" property="endDate" jdbcType="VARCHAR"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+
+        <result column="buyAmount" property="buyAmount" jdbcType="VARCHAR"/>
+        <result column="chg" property="chg" jdbcType="VARCHAR"/>
+        <result column="close" property="close" jdbcType="VARCHAR"/>
+        <result column="sellAmount" property="sellAmount" jdbcType="VARCHAR"/>
+        <result column="topAmount" property="topAmount" jdbcType="VARCHAR"/>
+        <result column="turnover" property="turnover" jdbcType="VARCHAR"/>
+
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into stockDragonTiger (
+        name, code, market,
+        endDate,reason,
+        buyAmount, chg, close,
+        sellAmount, topAmount,turnover,
+        createTime,
+        updateTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name,jdbcType=VARCHAR},
+            #{item.code,jdbcType=VARCHAR},
+            #{item.market,jdbcType=VARCHAR},
+            #{item.endDate,jdbcType=VARCHAR}, #{item.reason,jdbcType=VARCHAR},
+            #{item.buyAmount,jdbcType=VARCHAR}, #{item.chg,jdbcType=VARCHAR}, #{item.close,jdbcType=VARCHAR},
+            #{item.sellAmount,jdbcType=VARCHAR},#{item.topAmount,jdbcType=VARCHAR},#{item.turnover,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+    <select id="getStockDragonTigerListByParam" resultMap="BaseResultMap">
+        select
+        st.*
+        from stockDragonTiger st
+        where
+        left(code, 2) in ('60','00' )
+
+        <if test="stockDragonTiger.name !=null  and stockDragonTiger.name!=''">
+            and ( st.name like concat('%',#{stockDragonTiger.name},'%') or st.code = #{stockDragonTiger.name} )
+        </if>
+
+        order by st.endDate desc,st.id
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+
+    </select>
+
+
+    <select id="getStockDragonTigerTotal" resultType="java.lang.Long">
+
+        select COUNT(DISTINCT st.id )
+        from stockDragonTiger st
+
+        <where>
+            left(code, 2) in ('60','00' )
+
+            <if test="stockDragonTiger.name !=null  and stockDragonTiger.name!=''">
+                and ( st.name like concat('%',#{stockDragonTiger.name},'%') or st.code = #{stockDragonTiger.name} )
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockWrMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockWr">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="wr1" property="wr1" jdbcType="VARCHAR"/>
+        <result column="wr2" property="wr2" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Stock_Wr_Column_List1">
+        id
+        , code, date, wr1, wr2
+    </sql>
+
+    <insert id="insert" parameterType="org.pvuu.model.StockWr">
+        insert into stockwr (code, market,
+                             wr1, wr2, date,
+                             createTime, updateTime)
+        values (#{code,jdbcType=VARCHAR},
+                #{market,jdbcType=VARCHAR},
+                #{wr1,jdbcType=VARCHAR}, #{wr2,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+
+    <select id="getStockWrChartDataByParam" resultMap="BaseResultMap">
+        select
+        <include refid="Stock_Wr_Column_List1"/>
+        from stockwr
+        where
+        code = #{code,jdbcType=VARCHAR}
+        AND date in
+        <foreach collection="workDateList" item="workDateItem" close=")" open="(" separator=",">
+            #{workDateItem}
+        </foreach>
+
+        ORDER BY date
+    </select>
+
+
+</mapper>

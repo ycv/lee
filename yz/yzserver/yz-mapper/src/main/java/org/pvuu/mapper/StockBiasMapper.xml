@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockBiasMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockBias">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="bias1" property="bias1" jdbcType="VARCHAR"/>
+        <result column="bias2" property="bias2" jdbcType="VARCHAR"/>
+        <result column="bias3" property="bias3" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="org.pvuu.model.StockBias">
+        insert into stockBias (bias1, code, market,
+                               bias2, bias3, date,
+                               createTime, updateTime)
+        values (#{bias1,jdbcType=VARCHAR},
+                #{code,jdbcType=VARCHAR},
+                #{market,jdbcType=VARCHAR},
+                #{bias2,jdbcType=VARCHAR}, #{bias3,jdbcType=VARCHAR}, #{date,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+</mapper>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.DemoMapper">
+    <resultMap id="BaseResultMap1" type="org.pvuu.model.Stock">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+
+        <result column="profitFour" property="profit_four" jdbcType="VARCHAR"/>
+        <result column="listingDate" property="listing_date" jdbcType="VARCHAR"/>
+        <result column="currcapital" property="currcapital" jdbcType="VARCHAR"/>
+        <result column="mgjzc" property="mgjzc" jdbcType="VARCHAR"/>
+        <result column="totalcapital" property="totalcapital" jdbcType="VARCHAR"/>
+
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="stockType" property="stockType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Stock_Column_List1">
+        id
+        , name, code, createTime, updateTime,state,profitFour,market,listingDate,currcapital,
+        mgjzc,totalcapital,remark,stockType
+    </sql>
+
+
+    <select id="getDemoListByCode" resultMap="BaseResultMap1" parameterType="java.lang.String">
+        select
+        <include refid="Stock_Column_List1"/>
+        from stock1
+        where
+        1=1
+        and code = #{code,jdbcType=VARCHAR}
+        <!--        and code in-->
+        <!--        <foreach item="code" collection="code.split(',')" open="(" separator="," close=")">-->
+        <!--            #{code,jdbcType=VARCHAR}-->
+        <!--        </foreach>-->
+    </select>
+
+
+    <select id="getDemoListByCodeList" resultMap="BaseResultMap1">
+        select
+        <include refid="Stock_Column_List1"/>
+        from stock1
+        where
+        1=1
+        and code in
+        <foreach item="code" collection="codeList" open="(" separator="," close=")">
+            #{code,jdbcType=VARCHAR}
+        </foreach>
+    </select>
+
+
+</mapper>

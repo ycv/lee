@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockKdjMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockKdj">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="d" property="d" jdbcType="VARCHAR"/>
+        <result column="j" property="j" jdbcType="VARCHAR"/>
+        <result column="k" property="k" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Stock_kdj_Column_List1">
+        id
+        , code, date, d, k, j
+    </sql>
+
+    <insert id="insert" parameterType="org.pvuu.model.StockKdj">
+        insert into stockKdj (d, j, k,
+                              date, code, market,
+                              createTime, updateTime)
+        values (#{d,jdbcType=VARCHAR}, #{j,jdbcType=VARCHAR}, #{k,jdbcType=VARCHAR},
+                #{date,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+
+    <select id="getStockKdjChartDataByParam" resultMap="BaseResultMap">
+        select
+        <include refid="Stock_kdj_Column_List1"/>
+        from stockKdj
+        where
+        code = #{code,jdbcType=VARCHAR}
+        AND date in
+        <foreach collection="workDateList" item="workDateItem" close=")" open="(" separator=",">
+            #{workDateItem}
+        </foreach>
+
+        ORDER BY date
+    </select>
+</mapper>

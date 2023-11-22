@@ -1,0 +1,57 @@
+{
+  "name": "vueyz",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "axios": "^0.19.0",
+    "core-js": "^2.6.5",
+    "echarts": "^5.3.3",
+    "element-ui": "^2.12.0",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.6.1",
+    "luckyexcel": "^1.0.1",
+    "nprogress": "^0.2.0",
+    "vue": "^2.6.10",
+    "vue-i18n": "^7.4.0",
+    "vue-progressbar": "^0.7.5",
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^3.0.3",
+    "vue-table-with-tree-grid": "^0.2.4",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
+    "babel-plugin-component": "^1.1.1",
+    "compression-webpack-plugin": "^3.1.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^7.3.1",
+    "vue-cli-plugin-element": "^1.0.1",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "babel": {
+    "plugins": [
+      [
+        "component",
+        {
+          "libraryName": "element-ui",
+          "styleLibraryName": "theme-chalk"
+        }
+      ]
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

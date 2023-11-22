@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockInfoMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+
+        <result column="all_value" property="all_value" jdbcType="VARCHAR"/>
+        <result column="appointDiff" property="appointDiff" jdbcType="VARCHAR"/>
+        <result column="appointRate" property="appointRate" jdbcType="VARCHAR"/>
+        <result column="buy1_m" property="buy1_m" jdbcType="VARCHAR"/>
+        <result column="buy1_n" property="buy1_n" jdbcType="VARCHAR"/>
+        <result column="buy2_m" property="buy2_m" jdbcType="VARCHAR"/>
+
+        <result column="buy4_m" property="buy4_m" jdbcType="VARCHAR"/>
+        <result column="buy4_n" property="buy4_n" jdbcType="VARCHAR"/>
+        <result column="buy5_m" property="buy5_m" jdbcType="VARCHAR"/>
+        <result column="buy5_n" property="buy5_n" jdbcType="VARCHAR"/>
+        <result column="circulation_value" property="circulation_value" jdbcType="VARCHAR"/>
+        <result column="closePrice" property="closePrice" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="currcapital" property="currcapital" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="diff_money" property="diff_money" jdbcType="VARCHAR"/>
+        <result column="diff_rate" property="diff_rate" jdbcType="VARCHAR"/>
+        <result column="downLimit" property="downLimit" jdbcType="VARCHAR"/>
+        <result column="highLimit" property="highLimit" jdbcType="VARCHAR"/>
+        <result column="max52" property="max52" jdbcType="VARCHAR"/>
+        <result column="min52" property="min52" jdbcType="VARCHAR"/>
+        <result column="nowPrice" property="nowPrice" jdbcType="VARCHAR"/>
+        <result column="openPrice" property="openPrice" jdbcType="VARCHAR"/>
+        <result column="pb" property="pb" jdbcType="VARCHAR"/>
+        <result column="pe" property="pe" jdbcType="VARCHAR"/>
+        <result column="sell1_m" property="sell1_m" jdbcType="VARCHAR"/>
+        <result column="sell1_n" property="sell1_n" jdbcType="VARCHAR"/>
+        <result column="sell2_m" property="sell2_m" jdbcType="VARCHAR"/>
+        <result column="sell2_n" property="sell2_n" jdbcType="VARCHAR"/>
+        <result column="sell3_m" property="sell3_m" jdbcType="VARCHAR"/>
+        <result column="sell3_n" property="sell3_n" jdbcType="VARCHAR"/>
+        <result column="sell4_m" property="sell4_m" jdbcType="VARCHAR"/>
+        <result column="sell4_n" property="sell4_n" jdbcType="VARCHAR"/>
+        <result column="sell5_m" property="sell5_m" jdbcType="VARCHAR"/>
+        <result column="sell5_n" property="sell5_n" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="swing" property="swing" jdbcType="VARCHAR"/>
+        <result column="todayMax" property="todayMax" jdbcType="VARCHAR"/>
+        <result column="todayMin" property="todayMin" jdbcType="VARCHAR"/>
+        <result column="totalcapital" property="totalcapital" jdbcType="VARCHAR"/>
+        <result column="tradeAmount" property="tradeAmount" jdbcType="VARCHAR"/>
+        <result column="tradeNum" property="tradeNum" jdbcType="VARCHAR"/>
+        <result column="turnover" property="turnover" jdbcType="VARCHAR"/>
+        <result column="yestodayClosePrice" property="yestodayClosePrice" jdbcType="VARCHAR"/>
+        <result column="time" property="time" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+
+
+        <result column="zjzhangfu" property="zjzhangfu" jdbcType="VARCHAR"/>
+        <result column="waipan" property="waipan" jdbcType="VARCHAR"/>
+        <result column="neipan" property="neipan" jdbcType="VARCHAR"/>
+        <result column="liangbi" property="liangbi" jdbcType="VARCHAR"/>
+        <result column="zhangfu5" property="zhangfu5" jdbcType="VARCHAR"/>
+        <result column="zhangfu10" property="zhangfu10" jdbcType="VARCHAR"/>
+
+
+        <result column="junjia" property="junjia" jdbcType="VARCHAR"/>
+        <result column="dtpe" property="dtpe" jdbcType="VARCHAR"/>
+        <result column="jtpe" property="jtpe" jdbcType="VARCHAR"/>
+
+
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="StockInfo_Column_List1">
+        id
+        , name, code, createTime, updateTime
+    </sql>
+
+    <sql id="StockInfo_Column_List2">
+        tradeAmount
+    </sql>
+
+
+    <update id="updateStockInfoByCodeAndDate" parameterType="org.pvuu.model.StockInfo">
+        update stockinfo
+        <set>
+
+            <if test="stockInfo.buy4_m != null">
+                buy4_m = #{stockInfo.buy4_m,jdbcType=VARCHAR},
+            </if>
+            <if test="stockInfo.buy4_n != null">
+                buy4_n = #{stockInfo.buy4_n,jdbcType=VARCHAR},
+            </if>
+            updateTime = #{stockInfo.updateTime,jdbcType=VARCHAR}
+        </set>
+        where
+        code = #{stockInfo.code,jdbcType=VARCHAR}
+        and date = #{stockInfo.date,jdbcType=VARCHAR}
+    </update>
+
+
+    <insert id="insertStockInfoMapperBatch" parameterType="java.util.List">
+        insert into stockinfo (
+        all_value, appointDiff, appointRate,
+        buy1_m, buy1_n, buy2_m,
+     
+        buy4_m, buy4_n, buy5_m,
+        buy5_n, circulation_value, closePrice,
+        code, currcapital, date,
+        diff_money, diff_rate, downLimit,
+        highLimit, market, max52,
+        min52, name, nowPrice,
+        openPrice, pb, pe,
+        remark, sell1_m, sell1_n,
+        sell2_m, sell2_n, sell3_m,
+        sell3_n, sell4_m, sell4_n,
+        sell5_m, sell5_n, state,
+        swing, time, todayMax,
+        todayMin, totalcapital, tradeAmount,
+        tradeNum, turnover, yestodayClosePrice,
+        neipan, waipan, liangbi,zhangfu5, zhangfu10, zjzhangfu,
+        junjia, dtpe, jtpe,
+        createTime,
+        updateTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.all_value,jdbcType=VARCHAR}, #{item.appointDiff,jdbcType=VARCHAR},
+            #{item.appointRate,jdbcType=VARCHAR},
+            #{item.buy1_m,jdbcType=VARCHAR}, #{item.buy1_n,jdbcType=VARCHAR}, #{item.buy2_m,jdbcType=VARCHAR},
+
+            #{item.buy4_m,jdbcType=VARCHAR}, #{item.buy4_n,jdbcType=VARCHAR}, #{item.buy5_m,jdbcType=VARCHAR},
+            #{item.buy5_n,jdbcType=VARCHAR}, #{item.circulation_value,jdbcType=VARCHAR},
+            #{item.closePrice,jdbcType=VARCHAR},
+            #{item.code,jdbcType=VARCHAR}, #{item.currcapital,jdbcType=VARCHAR}, #{item.date,jdbcType=VARCHAR},
+            #{item.diff_money,jdbcType=VARCHAR}, #{item.diff_rate,jdbcType=VARCHAR}, #{item.downLimit,jdbcType=VARCHAR},
+            #{item.highLimit,jdbcType=VARCHAR}, #{item.market,jdbcType=VARCHAR}, #{item.max52,jdbcType=VARCHAR},
+            #{item.min52,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.nowPrice,jdbcType=VARCHAR},
+            #{item.openPrice,jdbcType=VARCHAR}, #{item.pb,jdbcType=VARCHAR}, #{item.pe,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR}, #{item.sell1_m,jdbcType=VARCHAR}, #{item.sell1_n,jdbcType=VARCHAR},
+            #{item.sell2_m,jdbcType=VARCHAR}, #{item.sell2_n,jdbcType=VARCHAR}, #{item.sell3_m,jdbcType=VARCHAR},
+            #{item.sell3_n,jdbcType=VARCHAR}, #{item.sell4_m,jdbcType=VARCHAR}, #{item.sell4_n,jdbcType=VARCHAR},
+            #{item.sell5_m,jdbcType=VARCHAR}, #{item.sell5_n,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR},
+            #{item.swing,jdbcType=VARCHAR}, #{item.time,jdbcType=VARCHAR}, #{item.todayMax,jdbcType=VARCHAR},
+            #{item.todayMin,jdbcType=VARCHAR}, #{item.totalcapital,jdbcType=VARCHAR},
+            #{item.tradeAmount,jdbcType=VARCHAR},
+            #{item.tradeNum,jdbcType=VARCHAR}, #{item.turnover,jdbcType=VARCHAR},
+            #{item.yestodayClosePrice,jdbcType=VARCHAR},
+            #{item.neipan,jdbcType=VARCHAR},#{item.waipan,jdbcType=VARCHAR},#{item.liangbi,jdbcType=VARCHAR},
+            #{item.zhangfu5,jdbcType=VARCHAR},#{item.zhangfu10,jdbcType=VARCHAR},#{item.zjzhangfu,jdbcType=VARCHAR},
+            #{item.junjia,jdbcType=VARCHAR},#{item.dtpe,jdbcType=VARCHAR},#{item.jtpe,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="getStockInfoByCodeAndDate" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        <include refid="StockInfo_Column_List2"/>
+        from stockinfo
+        where state = "1"
+        and code = #{code,jdbcType=VARCHAR}
+        and date = #{date,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getStockInfoListByPage" resultMap="BaseResultMap">
+        SELECT sk.*
+        FROM (
+        SELECT tab2.cnt,
+        TAB1.*
+        FROM (
+        SELECT t.*
+        FROM stockinfo t
+        WHERE
+
+        t.state = "1"
+
+        <if test="stockInfo.name !=null  and stockInfo.name!=''">
+            and (t.name like concat('%',#{stockInfo.name},'%') OR t.code = #{stockInfo.name})
+        </if>
+
+
+        <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''  and stockInfo.diff_rate!='0'  ">
+            and t.diff_rate >= #{stockInfo.diff_rate}
+        </if>
+
+
+        <if test="stockInfo.market !=null  and stockInfo.market!=''">
+            and t.market like concat('%',#{stockInfo.market},'%')
+        </if>
+
+        <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''  and stockInfo.turnover!='0' ">
+            and t.turnover >= #{stockInfo.turnover}
+        </if>
+
+        <if test="stockInfo.swing !=null  and stockInfo.swing!=''   and stockInfo.swing!='0' ">
+            and t.swing >= #{stockInfo.swing}
+        </if>
+
+
+        <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''  and stockInfo.tradeNum!='0' ">
+            and t.tradeNum >= #{stockInfo.tradeNum}
+        </if>
+
+        <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''  and stockInfo.diff_money!='0' ">
+            and t.diff_money >= #{stockInfo.diff_money}
+        </if>
+
+        <if test="stockInfo.beginDate !=null  and stockInfo.beginDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[>=]]>    REPLACE(#{stockInfo.beginDate}, '-', '')
+        </if>
+
+        <if test="stockInfo.endDate !=null  and stockInfo.endDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[<=]]>    REPLACE(#{stockInfo.endDate}, '-', '')
+        </if>
+
+
+        ORDER BY t.CODE
+        ) TAB1
+        LEFT JOIN (
+        SELECT CODE, count(CODE) AS cnt
+        FROM stockinfo t
+        WHERE
+
+        t.state = "1"
+
+        <if test="stockInfo.name !=null  and stockInfo.name!=''">
+            and (t.name like concat('%',#{stockInfo.name},'%') OR t.code = #{stockInfo.name})
+        </if>
+
+
+        <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''  and stockInfo.diff_rate!='0'  ">
+            and t.diff_rate >= #{stockInfo.diff_rate}
+        </if>
+
+
+        <if test="stockInfo.market !=null  and stockInfo.market!=''">
+            and t.market like concat('%',#{stockInfo.market},'%')
+        </if>
+
+        <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''  and stockInfo.turnover!='0' ">
+            and t.turnover >= #{stockInfo.turnover}
+        </if>
+
+        <if test="stockInfo.swing !=null  and stockInfo.swing!=''   and stockInfo.swing!='0' ">
+            and t.swing >= #{stockInfo.swing}
+        </if>
+
+
+        <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''  and stockInfo.tradeNum!='0' ">
+            and t.tradeNum >= #{stockInfo.tradeNum}
+        </if>
+
+        <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''  and stockInfo.diff_money!='0' ">
+            and t.diff_money >= #{stockInfo.diff_money}
+        </if>
+
+        <if test="stockInfo.beginDate !=null  and stockInfo.beginDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[>=]]>    REPLACE(#{stockInfo.beginDate}, '-', '')
+        </if>
+
+        <if test="stockInfo.endDate !=null  and stockInfo.endDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[<=]]>    REPLACE(#{stockInfo.endDate}, '-', '')
+        </if>
+
+        GROUP BY CODE
+        ) tab2 ON TAB1.CODE = tab2.CODE
+        ORDER BY tab2.cnt DESC, CODE
+        ) sk
+        WHERE sk.cnt > #{stockInfo.diffDayNum}
+        ORDER BY sk.code, sk.date DESC
+
+
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+
+    </select>
+
+
+    <select id="getStockInfoListTotal" resultType="java.lang.Long">
+        SELECT count(*)
+        FROM (
+        SELECT tab2.cnt,
+        TAB1.*
+        FROM (
+        SELECT t.*
+        FROM stockinfo t
+        WHERE
+
+        t.state = "1"
+
+        <if test="stockInfo.name !=null  and stockInfo.name!=''">
+            and (t.name like concat('%',#{stockInfo.name},'%') OR t.code = #{stockInfo.name})
+        </if>
+
+
+        <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''  and stockInfo.diff_rate!='0'  ">
+            and t.diff_rate >= #{stockInfo.diff_rate}
+        </if>
+
+
+        <if test="stockInfo.market !=null  and stockInfo.market!=''">
+            and t.market like concat('%',#{stockInfo.market},'%')
+        </if>
+
+        <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''  and stockInfo.turnover!='0' ">
+            and t.turnover >= #{stockInfo.turnover}
+        </if>
+
+        <if test="stockInfo.swing !=null  and stockInfo.swing!=''   and stockInfo.swing!='0' ">
+            and t.swing >= #{stockInfo.swing}
+        </if>
+
+
+        <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''  and stockInfo.tradeNum!='0' ">
+            and t.tradeNum >= #{stockInfo.tradeNum}
+        </if>
+
+        <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''  and stockInfo.diff_money!='0' ">
+            and t.diff_money >= #{stockInfo.diff_money}
+        </if>
+
+        <if test="stockInfo.beginDate !=null  and stockInfo.beginDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[>=]]>    REPLACE(#{stockInfo.beginDate}, '-', '')
+        </if>
+
+        <if test="stockInfo.endDate !=null  and stockInfo.endDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[<=]]>    REPLACE(#{stockInfo.endDate}, '-', '')
+        </if>
+
+        ORDER BY t.CODE
+        ) TAB1
+        LEFT JOIN (
+        SELECT CODE, count(CODE) AS cnt
+        FROM stockinfo t
+        WHERE
+
+        t.state = "1"
+
+        <if test="stockInfo.name !=null  and stockInfo.name!=''">
+            and (t.name like concat('%',#{stockInfo.name},'%') OR t.code = #{stockInfo.name})
+        </if>
+
+
+        <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''  and stockInfo.diff_rate!='0'  ">
+            and t.diff_rate >= #{stockInfo.diff_rate}
+        </if>
+
+
+        <if test="stockInfo.market !=null  and stockInfo.market!=''">
+            and t.market like concat('%',#{stockInfo.market},'%')
+        </if>
+
+        <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''  and stockInfo.turnover!='0' ">
+            and t.turnover >= #{stockInfo.turnover}
+        </if>
+
+        <if test="stockInfo.swing !=null  and stockInfo.swing!=''   and stockInfo.swing!='0' ">
+            and t.swing >= #{stockInfo.swing}
+        </if>
+
+
+        <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''  and stockInfo.tradeNum!='0' ">
+            and t.tradeNum >= #{stockInfo.tradeNum}
+        </if>
+
+        <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''  and stockInfo.diff_money!='0' ">
+            and t.diff_money >= #{stockInfo.diff_money}
+        </if>
+
+        <if test="stockInfo.beginDate !=null  and stockInfo.beginDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[>=]]>    REPLACE(#{stockInfo.beginDate}, '-', '')
+        </if>
+
+        <if test="stockInfo.endDate !=null  and stockInfo.endDate!=''">
+            AND REPLACE(t.date, '-', '')   <![CDATA[<=]]>    REPLACE(#{stockInfo.endDate}, '-', '')
+        </if>
+
+        GROUP BY CODE
+        ) tab2 ON TAB1.CODE = tab2.CODE
+        ORDER BY tab2.cnt DESC, CODE
+        ) sk
+        WHERE sk.cnt > #{stockInfo.diffDayNum}
+    </select>
+
+
+    <select id="getStockInfoListByPageOld" resultMap="BaseResultMap">
+
+        select
+        sd.*
+        from stockinfo sd
+        where
+        sd.state = "1"
+
+        <if test="stockInfo.name !=null  and stockInfo.name!=''">
+            and sd.name like concat('%',#{stockInfo.name},'%')
+        </if>
+
+
+        <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''">
+            and sd.diff_rate >= #{stockInfo.diff_rate}
+        </if>
+
+
+        <if test="stockInfo.market !=null  and stockInfo.market!=''">
+            and sd.market like concat('%',#{stockInfo.market},'%')
+        </if>
+
+        <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''">
+            and sd.turnover >= #{stockInfo.turnover}
+        </if>
+
+        <if test="stockInfo.swing !=null  and stockInfo.swing!=''">
+            and sd.swing >= #{stockInfo.swing}
+        </if>
+
+
+        <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''">
+            and sd.tradeNum >= #{stockInfo.tradeNum}
+        </if>
+
+        <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''">
+            and sd.diff_money >= #{stockInfo.diff_money}
+        </if>
+
+
+        order by sd.code
+
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+
+
+    </select>
+
+
+    <select id="getStockInfoListTotalOld" resultType="java.lang.Long">
+        select count(*)
+        from stockinfo sd
+
+        <where>
+            sd.state = "1"
+
+            <if test="stockInfo.name !=null  and stockInfo.name!=''">
+                and sd.name like concat('%',#{stockInfo.name},'%')
+            </if>
+
+
+            <if test="stockInfo.diff_rate !=null  and stockInfo.diff_rate!=''">
+                and sd.diff_rate >= #{stockInfo.diff_rate}
+            </if>
+
+
+            <if test="stockInfo.market !=null  and stockInfo.market!=''">
+                and sd.market like concat('%',#{stockInfo.market},'%')
+            </if>
+
+            <if test="stockInfo.turnover !=null  and stockInfo.turnover!=''">
+                and sd.turnover >= #{stockInfo.turnover}
+            </if>
+
+            <if test="stockInfo.swing !=null  and stockInfo.swing!=''">
+                and sd.swing >= #{stockInfo.swing}
+            </if>
+
+            <if test="stockInfo.tradeNum !=null  and stockInfo.tradeNum!=''">
+                and sd.tradeNum >= #{stockInfo.tradeNum}
+            </if>
+
+            <if test="stockInfo.diff_money !=null  and stockInfo.diff_money!=''">
+                and sd.diff_money >= #{stockInfo.diff_money}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

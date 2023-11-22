@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockRsiMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockRsi">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="rsi6" property="rsi6" jdbcType="VARCHAR"/>
+        <result column="rsi12" property="rsi12" jdbcType="VARCHAR"/>
+        <result column="rsi24" property="rsi24" jdbcType="VARCHAR"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <update id="updateStockRsiDataByCodeAndDate" parameterType="org.pvuu.model.StockRsi">
+        update stockrsi
+        <set>
+            <if test="stockRsi.rsi24 != null">
+                rsi24 = #{stockRsi.rsi24,jdbcType=VARCHAR},
+            </if>
+            updateTime = #{stockRsi.updateTime,jdbcType=VARCHAR}
+        </set>
+        where
+        code = #{stockRsi.code,jdbcType=VARCHAR}
+        and date = #{stockRsi.date,jdbcType=VARCHAR}
+    </update>
+
+    <insert id="insertStockRsiBatch" parameterType="java.util.List">
+        insert into stockrsi (
+        code, date,
+        rsi6,rsi12,rsi24,
+        createTime,
+        updateTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.code,jdbcType=VARCHAR}, #{item.date,jdbcType=VARCHAR},
+            #{item.rsi6,jdbcType=VARCHAR}, #{item.rsi12,jdbcType=VARCHAR},#{item.rsi24,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+    <select id="getStockChartDataByParam" resultMap="BaseResultMap">
+        select
+        *
+        from stockrsi
+        where
+        code = #{stockRsiParam.code,jdbcType=VARCHAR}
+
+        <if test="stockRsiParam.beginDate !=null  and stockRsiParam.beginDate!=''">
+            AND REPLACE(date, '-', '')   <![CDATA[>=]]>    REPLACE(#{stockRsiParam.beginDate}, '-', '')
+        </if>
+
+        <if test="stockRsiParam.endDate !=null  and stockRsiParam.endDate!=''">
+            AND REPLACE(date, '-', '')   <![CDATA[<=]]>    REPLACE(#{stockRsiParam.endDate}, '-', '')
+        </if>
+
+        AND date in
+        <foreach collection="workDateList" item="workDateItem" close=")" open="(" separator=",">
+            #{workDateItem}
+        </foreach>
+
+        ORDER BY date
+    </select>
+
+    <delete id="deleteStockRsiByCode">
+        delete
+        from stockrsi
+        where
+        code = #{code,jdbcType=VARCHAR}
+
+        <if test="beginDate !=null  and beginDate!=''">
+            AND REPLACE(date, '-', '')   <![CDATA[>=]]>    REPLACE(#{beginDate}, '-', '')
+        </if>
+
+        <if test="endDate !=null  and endDate!=''">
+            AND REPLACE(date, '-', '')   <![CDATA[<=]]>     REPLACE(#{endDate}, '-', '')
+        </if>
+
+    </delete>
+
+
+    <select id="getStockRsiListByPage" resultMap="BaseResultMap">
+        select
+        sr.code,
+        min(st.name) name, min(st.market) market,max(sr.createTime) as createTime,
+        max(sr.date) as date
+        from stockrsi sr left join stock1 st on sr.`code`=st.`code`
+        where
+        st.state = "1"
+
+        <if test="stockRsiParam.name !=null  and stockRsiParam.name!=''">
+            and ( st.name like concat('%',#{stockRsiParam.name},'%') or sr.code = #{stockRsiParam.name} )
+        </if>
+
+        group by sr.code
+
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+
+    <select id="getStockRsiTotal" resultType="java.lang.Long">
+
+        select COUNT(DISTINCT sr.code )
+        from stockrsi sr left join stock1 st on sr.`code`=st.`code`
+
+        <where>
+            st.state = "1"
+
+            <if test="stockRsiParam.name !=null  and stockRsiParam.name!=''">
+                and ( st.name like concat('%',#{stockRsiParam.name},'%') or sr.code = #{stockRsiParam.name} )
+            </if>
+
+        </where>
+    </select>
+
+
+    <insert id="insert" parameterType="org.pvuu.model.StockRsi">
+        insert into stockrsi (rsi6, rsi12, rsi24,
+                              date, code, market,
+                              createTime, updateTime)
+        values (#{rsi6,jdbcType=VARCHAR}, #{rsi12,jdbcType=VARCHAR}, #{rsi24,jdbcType=VARCHAR},
+                #{date,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{market,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

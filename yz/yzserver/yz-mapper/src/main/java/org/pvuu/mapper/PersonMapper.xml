@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.PersonMapper">
+
+
+    <insert id="insertPerson" parameterType="org.pvuu.model.Person" useGeneratedKeys="true"
+            keyProperty="id">
+
+        insert into person (firstName, middleName, lastName,
+                            phone, address, genderValue,
+                            birth, email, ssnNo,
+                            visaType, country, visaExp,
+                            passportNo, driverNo, driverExp,
+                            travelExp,
+                            createTime, updateTime)
+        values (#{firstName,jdbcType=VARCHAR}, #{middleName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{genderValue,jdbcType=VARCHAR},
+                #{birth,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{ssnNo,jdbcType=VARCHAR},
+                #{visaType,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{visaExp,jdbcType=VARCHAR},
+                #{passportNo,jdbcType=VARCHAR}, #{driverNo,jdbcType=VARCHAR}, #{driverExp,jdbcType=VARCHAR},
+                #{travelExp,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+
+
+    </insert>
+
+
+    <insert id="insertPersonFinancial" parameterType="org.pvuu.model.PersonFinancial" useGeneratedKeys="true"
+            keyProperty="id">
+
+        insert into personfinancial (pId, yearIncome, personWorth,
+                                     householdIncome, householdWorth,
+                                     createTime, updateTime)
+        values (#{pId,jdbcType=VARCHAR}, #{yearIncome,jdbcType=VARCHAR}, #{personWorth,jdbcType=VARCHAR},
+                #{householdIncome,jdbcType=VARCHAR}, #{householdWorth,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+
+
+    </insert>
+
+
+    <insert id="insertPersonEmployment" parameterType="org.pvuu.model.PersonEmployment" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into personemployment (pId,
+                                      name, address, industry,
+                                      occupation, jobTitle, workingExperience,
+                                      createTime, updateTime)
+        values (#{pId,jdbcType=VARCHAR},
+                #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR},
+                #{occupation,jdbcType=VARCHAR}, #{jobTitle,jdbcType=VARCHAR}, #{workingExperience,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+
+
+    </insert>
+
+
+    <insert id="insertPersonBeneficiaryBatch" parameterType="java.util.List">
+        insert into personbeneficiary (
+        pId, relationship,
+        firstName,lastName,ssnNo,
+        birth, share,
+        createTime,
+        updateTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.pId,jdbcType=VARCHAR}, #{item.relationship,jdbcType=VARCHAR},
+            #{item.firstName,jdbcType=VARCHAR},#{item.lastName,jdbcType=VARCHAR},#{item.ssnNo,jdbcType=VARCHAR},
+            #{item.birth,jdbcType=VARCHAR},#{item.share,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+</mapper>

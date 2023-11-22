@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockCciMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.StockCci">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="cci" property="cci" jdbcType="VARCHAR"/>
+        <result column="cci88" property="cci88" jdbcType="VARCHAR"/>
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Stock_Cci_Column_List1">
+        id
+        , code, date, cci
+    </sql>
+
+    <insert id="insert" parameterType="org.pvuu.model.StockCci">
+        insert into stockCci (cci, code, market, date,
+                              createTime, updateTime)
+        values (#{cci,jdbcType=VARCHAR},
+                #{code,jdbcType=VARCHAR},
+                #{market,jdbcType=VARCHAR},
+                #{date,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+
+    <select id="getStockCciChartDataByParam" resultMap="BaseResultMap">
+        select
+        <include refid="Stock_Cci_Column_List1"/>
+        from stockCci
+        where
+        code = #{code,jdbcType=VARCHAR}
+        AND date in
+        <foreach collection="workDateList" item="workDateItem" close=")" open="(" separator=",">
+            #{workDateItem}
+        </foreach>
+
+        ORDER BY date
+    </select>
+
+
+    <update id="updateStockCciData" parameterType="org.pvuu.model.StockCci">
+        update stockCci
+        <set>
+            <if test="stockCci.cci88 != null">
+                cci88 = #{stockCci.cci88,jdbcType=VARCHAR},
+            </if>
+            updateTime = #{stockCci.updateTime,jdbcType=VARCHAR}
+        </set>
+        where
+        code = #{stockCci.code,jdbcType=VARCHAR}
+        and date = #{stockCci.date,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

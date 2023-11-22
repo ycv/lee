@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.pvuu.mapper.StockMapper">
+    <resultMap id="BaseResultMap" type="org.pvuu.model.Stock">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="org.pvuu.model.Stock">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+
+        <result column="state" property="state" jdbcType="VARCHAR"/>
+        <result column="market" property="market" jdbcType="VARCHAR"/>
+
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="updateTime" property="updateTime" jdbcType="VARCHAR"/>
+
+        <result column="profitFour" property="profit_four" jdbcType="VARCHAR"/>
+        <result column="listingDate" property="listing_date" jdbcType="VARCHAR"/>
+        <result column="currcapital" property="currcapital" jdbcType="VARCHAR"/>
+        <result column="mgjzc" property="mgjzc" jdbcType="VARCHAR"/>
+        <result column="totalcapital" property="totalcapital" jdbcType="VARCHAR"/>
+
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="stockType" property="stockType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Stock_Column_List1">
+        id
+        , name, code, createTime, updateTime,state,profitFour,market,listingDate,currcapital,
+        mgjzc,totalcapital,remark,stockType
+    </sql>
+    <sql id="Stock_Column_List2">
+        id
+        , name, code, market
+    </sql>
+
+
+    <insert id="insert" parameterType="org.pvuu.model.Stock">
+        insert into stock1 (name, code, market, createTime, updateTime)
+        values (#{name,jdbcType=VARCHAR},
+                #{code,jdbcType=VARCHAR},
+                #{market,jdbcType=VARCHAR},
+                #{createTime,jdbcType=VARCHAR},
+                #{updateTime,jdbcType=VARCHAR})
+    </insert>
+
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        insert into stock1 ( name, code,state,market,profitFour,listingDate,
+        currcapital,
+        mgjzc,
+        totalcapital, remark, stockType,
+        createTime,
+        updateTime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name,jdbcType=VARCHAR},
+            #{item.code,jdbcType=VARCHAR},
+            #{item.state,jdbcType=VARCHAR},
+            #{item.market,jdbcType=VARCHAR}, #{item.profit_four,jdbcType=VARCHAR},
+            #{item.listing_date,jdbcType=VARCHAR}, #{item.currcapital,jdbcType=VARCHAR},
+            #{item.mgjzc,jdbcType=VARCHAR}, #{item.totalcapital,jdbcType=VARCHAR},
+            #{item.remark,jdbcType=VARCHAR},#{item.stockType,jdbcType=VARCHAR},
+            #{item.createTime,jdbcType=VARCHAR},
+            #{item.updateTime,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+
+    <update id="updateBatch" parameterType="java.util.List">
+
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update stock1 t
+            set
+            t.code=#{item.code,jdbcType=VARCHAR}, t.market=#{item.market,jdbcType=VARCHAR},
+            t.stockType=#{item.stockType,jdbcType=VARCHAR}
+
+            where t.id = #{item.id,jdbcType=INTEGER}
+        </foreach>
+
+    </update>
+
+
+    <update id="updateBatchByCode" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update stock1 t
+            <set>
+                <if test="item.state != null">
+                    t.state= #{item.state,jdbcType=VARCHAR},
+                </if>
+                <if test="item.market != null">
+                    t.market = #{item.market,jdbcType=VARCHAR},
+                </if>
+                <if test="item.stockType != null">
+                    t.stockType = #{item.stockType,jdbcType=VARCHAR},
+                </if>
+                <if test="item.updateTime != null">
+                    t.updateTime= #{item.updateTime,jdbcType=VARCHAR}
+                </if>
+            </set>
+            where t.code = #{item.code}
+        </foreach>
+    </update>
+
+    <select id="getStockByCode" resultMap="BaseResultMap1" parameterType="java.lang.String">
+        select
+        <include refid="Stock_Column_List1"/>
+        from stock1
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="getAllStocks" resultMap="BaseResultMap">
+        select
+        <include refid="Stock_Column_List2"/>
+        from stock1
+    </select>
+
+
+    <delete id="deleteStockByIds">
+        delete from stock1 where id in
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <delete id="deleteStockByPrimaryKey" parameterType="java.lang.Integer">
+        delete
+        from stock1
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+
+    <select id="getAllStocksByStateAndCodePre" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select *
+        from stock1
+        where state = #{state,jdbcType=VARCHAR}
+        and
+        left(code, 2) in
+        <foreach collection="codePre" item="code" close=")" open="(" separator=",">
+            #{code}
+        </foreach>
+
+    </select>
+
+
+    <select id="getStockCodeByStateAndMarket" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        *
+        from stock1
+        where
+        state = #{state,jdbcType=VARCHAR}
+        and
+        market in
+        <foreach collection="markets" item="market" close=")" open="(" separator=",">
+            #{market}
+        </foreach>
+    </select>
+
+
+    <select id="getStockListByPage" resultMap="BaseResultMap">
+        select
+        *
+        from stock1
+        where
+        state = #{state,jdbcType=VARCHAR}
+        and
+        market in
+        <foreach collection="markets" item="market" close=")" open="(" separator=",">
+            #{market}
+        </foreach>
+
+        <if test="name !=null  and name!=''">
+            and name like concat('%',#{name},'%')
+        </if>
+
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <select id="getStockTotal" resultType="java.lang.Long">
+
+        select count(*)
+        from stock1
+
+        <where>
+
+            state = #{state,jdbcType=VARCHAR}
+            and
+            market in
+            <foreach collection="markets" item="market" close=")" open="(" separator=",">
+                #{market}
+            </foreach>
+
+            <if test="name !=null  and name!=''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+
+    </select>
+
+</mapper>
